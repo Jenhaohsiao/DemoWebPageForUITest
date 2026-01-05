@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Automation Sandbox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none; }
+        .required::after { content: ' *'; color: #ef4444; }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans min-h-screen text-gray-900 pb-20">
+
+    <header class="bg-indigo-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 id="page-header" class="text-xl font-bold tracking-tight">QA Automation Sandbox</h1>
+            <div class="flex items-center gap-4">
+                <span class="bg-indigo-500 px-3 py-1 rounded-md text-xs font-semibold uppercase tracking-wider">v2.1 Stable</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto mt-8 px-4">
+        <section id="view-form" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-gray-50 border-b border-gray-200 px-8 py-6">
+                <h2 id="form-title" class="text-2xl font-bold text-gray-800">Member Registration</h2>
+                <p class="text-gray-500 text-sm mt-1">Fill in the details for E2E testing scenarios.</p>
+            </div>
+            
+            <form id="member-form" novalidate class="p-8 space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label id="label-username" for="input-username" class="text-sm font-semibold text-gray-700 required">Full Name</label>
+                        <input type="text" id="input-username" name="username" placeholder="e.g. John Doe" 
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
+                        <p id="error-username" class="text-xs text-red-500 font-medium hidden">Full name is required</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label id="label-email" for="input-email" class="text-sm font-semibold text-gray-700 required">Email Address</label>
+                        <input type="email" id="input-email" name="email" placeholder="john@example.com" 
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
+                        <p id="error-email" class="text-xs text-red-500 font-medium hidden">Valid email is required</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="space-y-2">
+                        <label id="label-phone" for="input-phone" class="text-sm font-semibold text-gray-700">Phone Number</label>
+                        <input type="tel" id="input-phone" name="phone" placeholder="+1 (555) 000-0000" 
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label id="label-age" for="input-age" class="text-sm font-semibold text-gray-700">Age</label>
+                        <input type="number" id="input-age" name="age" min="1" max="120" value="25" 
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label id="label-dob" for="input-dob" class="text-sm font-semibold text-gray-700 required">Date of Birth</label>
+                        <input type="date" id="input-dob" name="dob" 
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
+                        <p id="error-dob" class="text-xs text-red-500 font-medium hidden">Selection is required</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label id="label-city" for="select-city" class="text-sm font-semibold text-gray-700">City</label>
+                        <select id="select-city" name="city" 
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all appearance-none cursor-pointer">
+                            <option value="">-- Choose City --</option>
+                            <option value="taipei">Taipei</option>
+                            <option value="taichung">Taichung</option>
+                            <option value="kaohsiung">Kaohsiung</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label id="label-district" for="select-district" class="text-sm font-semibold text-gray-700">District</label>
+                        <select id="select-district" name="district" disabled 
+                            class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all disabled:bg-gray-50 disabled:text-gray-400">
+                            <option value="">Select City First</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <span id="label-plan" class="text-sm font-semibold text-gray-700 required">Subscription Plan</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-indigo-50 transition-all">
+                            <input type="radio" id="radio-plan-standard" name="plan" value="Standard" class="w-5 h-5 text-indigo-600 focus:ring-indigo-500">
+                            <span class="ml-3 font-medium text-gray-700">Standard</span>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-indigo-50 transition-all">
+                            <input type="radio" id="radio-plan-premium" name="plan" value="Premium" class="w-5 h-5 text-indigo-600 focus:ring-indigo-500">
+                            <span class="ml-3 font-medium text-gray-700">Premium</span>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-indigo-50 transition-all">
+                            <input type="radio" id="radio-plan-ultimate" name="plan" value="Ultimate" class="w-5 h-5 text-indigo-600 focus:ring-indigo-500">
+                            <span class="ml-3 font-medium text-gray-700">Ultimate</span>
+                        </label>
+                    </div>
+                    <p id="error-plan" class="text-xs text-red-500 font-medium hidden">Please select a plan</p>
+                </div>
+
+                <div class="space-y-4">
+                    <span id="label-interests" class="text-sm font-semibold text-gray-700">Interests</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" name="interests" value="Technology" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm text-gray-600 font-medium">Tech</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" name="interests" value="Art" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm text-gray-600 font-medium">Art</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" name="interests" value="Sports" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm text-gray-600 font-medium">Sports</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" name="interests" value="Music" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm text-gray-600 font-medium">Music</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label id="label-bio" for="textarea-bio" class="text-sm font-semibold text-gray-700">Bio</label>
+                    <textarea id="textarea-bio" name="bio" rows="4" placeholder="Description for testing..." 
+                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all resize-none"></textarea>
+                </div>
+
+                <div class="p-6 bg-indigo-50 rounded-xl border border-indigo-100 flex items-start gap-4">
+                    <input type="checkbox" id="checkbox-agree" name="agree" class="mt-1 w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <div class="flex-1">
+                        <label id="label-agree" for="checkbox-agree" class="text-sm text-gray-600 leading-relaxed cursor-pointer select-none">
+                            I accept the simulation terms for this test environment.
+                        </label>
+                        <p id="error-agree" class="text-xs text-red-500 mt-1 font-medium hidden">Acceptance required</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100">
+                    <button type="submit" id="btn-submit" 
+                        class="flex-[2] bg-indigo-600 text-white py-4 px-8 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-md active:scale-95 text-lg">
+                        Submit Application
+                    </button>
+                    <button type="button" id="btn-reset" 
+                        class="flex-1 border border-gray-300 text-gray-600 py-4 px-8 rounded-xl font-semibold hover:bg-gray-50 transition-all active:scale-95">
+                        Reset Form
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="view-success" class="hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div class="bg-white p-12 rounded-2xl shadow-xl border border-gray-200 text-center max-w-2xl mx-auto">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h2 id="success-message" class="text-3xl font-extrabold text-gray-800 mb-2">Submission Confirmed</h2>
+                <p class="text-gray-500 mb-8">Data has been successfully recorded in the sandbox.</p>
+                
+                <div id="summary-card" class="bg-slate-50 p-6 rounded-xl text-left border border-gray-100 space-y-4 mb-8">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-200 pb-2">Verification Snapshot</h3>
+                    <div class="grid grid-cols-1 gap-y-3 text-sm">
+                        <div class="flex justify-between border-b border-gray-100 pb-1">
+                            <span class="text-gray-500">Name:</span>
+                            <span id="result-username" class="font-bold text-gray-900"></span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-100 pb-1">
+                            <span class="text-gray-500">Email:</span>
+                            <span id="result-email" class="font-bold text-gray-900"></span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-100 pb-1">
+                            <span class="text-gray-500">Plan:</span>
+                            <span id="result-plan" class="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded text-xs font-bold"></span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-100 pb-1">
+                            <span class="text-gray-500">Location:</span>
+                            <span id="result-location" class="font-bold text-gray-900"></span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-100 pb-1">
+                            <span class="text-gray-500">Tags:</span>
+                            <span id="result-interests" class="font-bold text-gray-900"></span>
+                        </div>
+                        <div class="pt-2">
+                            <span class="text-gray-500 text-xs block mb-1">Biography:</span>
+                            <p id="result-bio" class="text-gray-600 bg-white p-3 rounded border border-gray-100 text-xs italic"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-back" class="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-black transition-all shadow-md active:scale-95 text-lg">
+                    Back to Form
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-12 py-8 text-center border-t border-gray-100">
+        <p class="text-gray-400 text-sm">Playwright Automation Sandbox &copy; 2025</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "name": "Playwright Automation Test Site",
+  "description": "An English vanilla HTML/JS member registration form playground designed for end-to-end testing with fixed IDs and dynamic cascading elements.",
+  "requestFramePermissions": []
+}
